@@ -24,7 +24,7 @@ setup(
 
     keywords='configuration plugin multiple',
     packages=find_packages(exclude=['contrib', 'docs', 'spec*']),
-    install_requires=['six', 'alchemize'],
+    install_requires=['six', 'alchemize', 'pike'],
     extras_require={
         'yaml': ['pyyaml'],
         'consul': ['pyyaml', 'requests'],

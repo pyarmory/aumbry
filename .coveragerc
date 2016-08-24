@@ -1,0 +1,9 @@
+[run]
+branch = True
+source = maul
+omit = spec/*
+
+[report]
+exclude_lines =
+    @abc.abstractmethod
+    @abc.abstractproperty

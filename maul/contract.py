@@ -1,7 +1,9 @@
 import abc
-import copy
 import os
+import importlib
 import six
+
+from maul.errors import DependencyError
 
 
 @six.add_metaclass(abc.ABCMeta)
@@ -28,6 +30,28 @@ class AbstractHandler(object):
     @abc.abstractproperty
     def environment_var_prefix(self):
         """ The prefix of all environmental variables to fetch. """
+
+    @abc.abstractproperty
+    def extras_name(self):
+        """ The name of the extras package requirement. """
+
+    @abc.abstractproperty
+    def imports(self):
+        """ List of modules to import. """
+
+    def import_requirements(self):
+        def _import(req, pkg=None):
+            try:
+                importlib.import_module(req, pkg)
+            except:
+                raise DependencyError(self.extras_name)
+
+        for req in self.imports:
+            if isinstance(req, six.text_type) or isinstance(req, str):
+                _import(req)
+            else:
+                name, package = req
+                _import(name, package)
 
     @property
     def environmental_vars(self):

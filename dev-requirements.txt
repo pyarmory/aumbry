@@ -1,0 +1,5 @@
+tox
+twine
+-e .['yaml']
+-e .['consul']
+-r test-requirements.txt

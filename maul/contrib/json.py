@@ -6,6 +6,12 @@ from maul.utils.file import load_file
 
 
 class JsonHandler(AbstractHandler):
+    extras_name = 'json'
+
+    @property
+    def imports(self):
+        return ['json']
+
     @property
     def environment_var_prefix(self):
         return 'CONFIG_FILE'

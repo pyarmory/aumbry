@@ -10,4 +10,4 @@ def load_file(filename):
         with open(filename, 'rb') as fp:
             return fp.read()
     except Exception as e:
-        raise LoadError(e.message)
+        raise LoadError(str(e))
