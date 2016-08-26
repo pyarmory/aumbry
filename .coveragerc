@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = maul
+source = aumbry
 omit = spec/*
 
 [report]

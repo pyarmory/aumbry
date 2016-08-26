@@ -1,9 +1,9 @@
 import requests
 import time
-import urljoin
+from six.moves.urllib.parse import urljoin
 
-from maul.contract import AbstractHandler
-from maul.errors import LoadError
+from aumbry.contract import AbstractHandler
+from aumbry.errors import LoadError
 
 
 class ConsulHandler(AbstractHandler):

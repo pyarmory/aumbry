@@ -1,8 +1,8 @@
 from alchemize.transmute import JsonTransmuter
 from alchemize.mapping import JsonMappedModel
 
-from maul.contract import AbstractHandler
-from maul.utils.file import load_file
+from aumbry.contract import AbstractHandler
+from aumbry.utils.file import load_file
 
 
 class JsonHandler(AbstractHandler):

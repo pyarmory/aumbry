@@ -5,11 +5,11 @@ with open('README.rst') as f:
     desc = f.read()
 
 setup(
-    name='maul',
+    name='aumbry',
     version='0.1.0',
     description=('Multi-type configuration library for Python'),
     long_description=desc,
-    url='https://github.com/pyarmory/maul',
+    url='https://github.com/pyarmory/aumbry',
     author='John Vrbanac',
     author_email='john.vrbanac@linux.com',
     license='Apache v2',

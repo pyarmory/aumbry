@@ -3,7 +3,7 @@ import os
 import importlib
 import six
 
-from maul.errors import DependencyError
+from aumbry.errors import DependencyError
 
 
 @six.add_metaclass(abc.ABCMeta)

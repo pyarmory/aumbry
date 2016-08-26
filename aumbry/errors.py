@@ -1,28 +1,28 @@
-class MaulError(Exception):
+class AumbryError(Exception):
     def __init__(self, message):
         self.message = message
 
 
-class LoadError(MaulError):
+class LoadError(AumbryError):
     pass
 
 
-class ParsingError(MaulError):
+class ParsingError(AumbryError):
     pass
 
 
-class DependencyError(MaulError):
-    def __init__(self, maul_extras_name):
+class DependencyError(AumbryError):
+    def __init__(self, extras_name):
         msg = (
-            'Dependencies unavailable: run "pip install maul[{}]" to acquire '
+            'Dependencies unavailable: run "pip install aumbry[{}]" to acquire '
             'to appropriate dependencies.'
         ).format(
-            maul_extras_name
+            extras_name
         )
         super(DependencyError, self).__init__(msg)
 
 
-class UnknownHandlerError(MaulError):
+class UnknownHandlerError(AumbryError):
     def __init__(self, name):
         super(UnknownHandlerError, self).__init__(
             'Couldn\'t find a handler with the name: {}'.format(name)

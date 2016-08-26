@@ -1,7 +1,7 @@
 from alchemize.transmute import JsonTransmuter
 from alchemize.mapping import JsonMappedModel
 
-from maul.contrib import json
+from aumbry.formats import json
 
 
 class YamlHandler(json.JsonHandler):

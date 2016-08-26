@@ -1,5 +1,5 @@
 import os
-from maul.errors import LoadError
+from aumbry.errors import LoadError
 
 
 def load_file(filename):
