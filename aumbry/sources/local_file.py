@@ -1,9 +1,10 @@
 from aumbry.contract import AbstractSource
+from aumbry.sources import SourceTypes
 from aumbry.utils.file import load_file
 
 
 class FileSource(AbstractSource):
-    extras_name = 'file'
+    extras_name = SourceTypes.file
 
     @property
     def imports(self):

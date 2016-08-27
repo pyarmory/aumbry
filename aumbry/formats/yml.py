@@ -1,6 +1,6 @@
 from alchemize.transmute import JsonTransmuter
-from alchemize.mapping import JsonMappedModel
 
+from aumbry.contract import AumbryConfig
 from aumbry.formats import js
 
 
@@ -24,5 +24,6 @@ class YamlHandler(js.JsonHandler):
         return JsonTransmuter.transmute_from(config_dict, config_cls)
 
 
-class YamlConfig(JsonMappedModel):
+class YamlConfig(AumbryConfig):
+    """ A type of AumbryConfig for Yaml Configurations."""
     __handler__ = YamlHandler

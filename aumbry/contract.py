@@ -3,6 +3,7 @@ import os
 import importlib
 import six
 
+from alchemize.mapping import JsonMappedModel
 from aumbry.errors import DependencyError
 
 
@@ -66,3 +67,7 @@ class AbstractHandler(PluginBase):
     @abc.abstractmethod
     def serialize(self, config):
         """ Method to handle serialization to a string. """
+
+
+class AumbryConfig(JsonMappedModel):
+    __handler__ = None

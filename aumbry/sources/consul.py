@@ -4,10 +4,11 @@ from six.moves.urllib.parse import urljoin
 
 from aumbry.contract import AbstractSource
 from aumbry.errors import LoadError
+from aumbry.sources import SourceTypes
 
 
-class ConsulHandler(AbstractSource):
-    extras_name = 'consul'
+class ConsulSource(AbstractSource):
+    extras_name = SourceTypes.consul
 
     @property
     def imports(self):

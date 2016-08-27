@@ -21,6 +21,20 @@ def find_source(name, search_paths=None):
 
 
 def load(source_name, config_class, options=None, search_paths=None):
+    """Loads a configration from a source into the specified Config type
+
+    Args:
+        source_name (str): The name of the desired source.
+        config_class (AumbryConfig): The resulting class of configuration you
+            wish to deserialize the data into.
+        options (dict, optional): The options used by the source handler. The
+            keys are determined by each source handler. Refer to your source
+            handler documentation on what options are available.
+        search_paths (list, optional): A list paths for custom source handlers
+
+    Returns:
+        An instance of the passed in config_class
+    """
     source_cls = find_source(source_name, search_paths)
     if not source_cls:
         raise UnknownSourceError(source_name)

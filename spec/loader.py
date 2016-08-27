@@ -8,9 +8,10 @@ import requests_mock
 from specter import Spec, DataSpec, expect
 from pike.discovery import py
 
+import aumbry
 from aumbry.errors import LoadError, UnknownSourceError
-from aumbry.formats import yml, js
-from aumbry import loader
+# from aumbry.formats import yml, js
+# from aumbry import loader
 
 
 raw_json = dedent("""
@@ -26,13 +27,13 @@ raw_yaml = dedent("""
 """)
 
 
-class SampleJsonConfig(js.JsonConfig):
+class SampleJsonConfig(aumbry.JsonConfig):
     __mapping__ = {
         'nope': ['nope', str]
     }
 
 
-class SampleYamlConfig(yml.YamlConfig):
+class SampleYamlConfig(aumbry.YamlConfig):
     __mapping__ = {
         'nope': ['nope', str]
     }
@@ -57,7 +58,7 @@ class VerifyLoaderHandlingFileBased(DataSpec):
     def can_load(self, raw, cls):
         temp, options = write_temp_file(raw)
 
-        cfg = loader.load('file', cls, options)
+        cfg = aumbry.load('file', cls, options)
         os.remove(temp.name)
 
         expect(cfg.nope).to.equal('testing')
@@ -77,7 +78,7 @@ class VerifyLoaderHandlingConsul(Spec):
                 'CONSUL_KEY': 'test_key',
             }
 
-            cfg = loader.load('consul', SampleYamlConfig, options)
+            cfg = aumbry.load('consul', SampleYamlConfig, options)
             expect(cfg.nope).to.equal('testing')
 
     def can_handle_404_from_consul(self):
@@ -90,7 +91,7 @@ class VerifyLoaderHandlingConsul(Spec):
             }
 
             expect(
-                loader.load,
+                aumbry.load,
                 ['consul', SampleYamlConfig, options]
             ).to.raise_a(LoadError)
 
@@ -106,7 +107,7 @@ class VerifyLoaderHandlingConsul(Spec):
             }
 
             expect(
-                loader.load,
+                aumbry.load,
                 ['consul', SampleYamlConfig, options]
             ).to.raise_a(LoadError)
 
@@ -115,7 +116,7 @@ class VerifyLoaderHandlingConsul(Spec):
 
 class CheckInvalidLoader(Spec):
     def raises_an_error(self):
-        expect(loader.load, ['bam', None]).to.raise_a(UnknownSourceError)
+        expect(aumbry.load, ['bam', None]).to.raise_a(UnknownSourceError)
 
 
 class CustomSourcePluginPaths(Spec):
@@ -124,7 +125,7 @@ class CustomSourcePluginPaths(Spec):
 
         temp, options = write_temp_file(raw_yaml)
 
-        cfg = loader.load(
+        cfg = aumbry.load(
             'file',
             SampleYamlConfig,
             options,
@@ -136,6 +137,6 @@ class CustomSourcePluginPaths(Spec):
 
     def empty_list_raises_unknown_source(self):
         expect(
-            loader.load,
+            aumbry.load,
             ['bam', None, ['/tmp']]
         ).to.raise_a(UnknownSourceError)

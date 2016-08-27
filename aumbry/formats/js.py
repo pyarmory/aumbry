@@ -1,7 +1,6 @@
 from alchemize.transmute import JsonTransmuter
-from alchemize.mapping import JsonMappedModel
 
-from aumbry.contract import AbstractHandler
+from aumbry.contract import AbstractHandler, AumbryConfig
 
 
 class JsonHandler(AbstractHandler):
@@ -21,5 +20,6 @@ class JsonHandler(AbstractHandler):
         )
 
 
-class JsonConfig(JsonMappedModel):
+class JsonConfig(AumbryConfig):
+    """ A type of AumbryConfig for JSON Configurations."""
     __handler__ = JsonHandler
