@@ -1,10 +1,10 @@
 from alchemize.transmute import JsonTransmuter
 from alchemize.mapping import JsonMappedModel
 
-from aumbry.formats import json
+from aumbry.formats import js
 
 
-class YamlHandler(json.JsonHandler):
+class YamlHandler(js.JsonHandler):
     extras_name = 'yaml'
 
     @property
