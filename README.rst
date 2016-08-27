@@ -1,6 +1,11 @@
 Aumbry
 ======
 
+.. image:: https://travis-ci.org/pyarmory/aumbry.svg?branch=master
+    :target: https://travis-ci.org/pyarmory/aumbry
+    :alt: Travis CI Build
+
+
 Aumbry is general purpose library for handling configuration within your
 Python applications. The project was born from constantly needing a simple
 interface for configuration models that came from multiple data sources.
