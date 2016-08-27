@@ -15,7 +15,14 @@ Aumbry is available on PyPI
 
 .. code-block:: bash
 
+    # Install aumbry core
     pip install aumbry
+
+    # For Consul dependencies
+    pip install aumbry['consul']
+
+    # For Yaml dependencies
+    pip install aumbry['yaml']
 
 Contents:
 

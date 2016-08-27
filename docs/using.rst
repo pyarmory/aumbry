@@ -14,7 +14,7 @@ the extra dependencies using the following convention:
     # For Consul dependencies
     pip install aumbry['consul']
 
-    # For Yaml Dependencies
+    # For Yaml dependencies
     pip install aumbry['yaml']
 
 
@@ -52,11 +52,7 @@ trying to do and load the config up.
     }
 
     # Time to load it up!
-    config = aumbry.load(
-        aumbry.SourceTypes.file,
-        SampleConfig,
-        options
-    )
+    config = aumbry.load(aumbry.FILE, SampleConfig, options)
 
     print(config.something) # it works!
 
@@ -104,11 +100,7 @@ set our options for the Consul source.
     }
 
     # Time to load it up!
-    config = aumbry.load(
-        aumbry.SourceTypes.consul,
-        SampleConfig,
-        options
-    )
+    config = aumbry.load(aumbry.CONSUL, SampleConfig, options)
 
     print(config.something) # it works!
 
@@ -133,7 +125,7 @@ CONSUL_RETRY_INTERVAL     10     Wait period between retries
 
 Building Configuration Models
 -----------------------------
-Because Aumbry uses Alchemize for model de/serialization, it's just a matter
+Because Aumbry uses Alchemize_ for model de/serialization, it's just a matter
 of defining out the models in the Alchemize method.
 
 Example Yaml Configuration
@@ -173,7 +165,7 @@ Example Code Load and Parse that config
 
 
     cfg = aumbry.load(
-        aumbry.SourceTypes.file,
+        aumbry.FILE,
         AppConfig,
         {
             'CONFIG_FILE_PATH': '/etc/app/config.yml'
@@ -185,3 +177,8 @@ Example Code Load and Parse that config
 One of the things you might have noticed is that the explicit mapping allows
 for us to take an attribute name such as ``base-uri`` which isn't compatible
 with Python, and map it over to ``base_uri``.
+
+More details can be found on building your mappings in the Alchemize_
+documentation.
+
+.. _Alchemize: https://alchemize.readthedocs.io/en/latest/

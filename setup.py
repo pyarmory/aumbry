@@ -18,8 +18,8 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: Implementation :: PyPy'
     ],
 
     keywords='configuration plugin multiple',
@@ -27,7 +27,7 @@ setup(
     install_requires=['six', 'alchemize', 'pike'],
     extras_require={
         'yaml': ['pyyaml'],
-        'consul': ['pyyaml', 'requests'],
+        'consul': ['requests'],
     },
     package_data={},
     data_files=[],

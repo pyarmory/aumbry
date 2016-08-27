@@ -58,7 +58,7 @@ class VerifyLoaderHandlingFileBased(DataSpec):
     def can_load(self, raw, cls):
         temp, options = write_temp_file(raw)
 
-        cfg = aumbry.load('file', cls, options)
+        cfg = aumbry.load(aumbry.FILE, cls, options)
         os.remove(temp.name)
 
         expect(cfg.nope).to.equal('testing')
@@ -78,7 +78,7 @@ class VerifyLoaderHandlingConsul(Spec):
                 'CONSUL_KEY': 'test_key',
             }
 
-            cfg = aumbry.load('consul', SampleYamlConfig, options)
+            cfg = aumbry.load(aumbry.CONSUL, SampleYamlConfig, options)
             expect(cfg.nope).to.equal('testing')
 
     def can_handle_404_from_consul(self):
