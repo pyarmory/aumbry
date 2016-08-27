@@ -24,8 +24,5 @@ class YamlHandler(js.JsonHandler):
         return JsonTransmuter.transmute_from(config_dict, config_cls)
 
 
-# NOTE: The JsonMappedModel type should be sufficent for what we're doing;
-# However, we're setting up a different type in-case it isn't, so we don't
-# break a contract.
 class YamlConfig(JsonMappedModel):
-    pass
+    __handler__ = YamlHandler

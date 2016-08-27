@@ -2,11 +2,11 @@ import time
 import base64
 from six.moves.urllib.parse import urljoin
 
-from aumbry.formats import yml
+from aumbry.contract import AbstractHandler
 from aumbry.errors import LoadError
 
 
-class ConsulHandler(yml.YamlHandler):
+class ConsulHandler(AbstractHandler):
     extras_name = 'consul'
 
     @property
@@ -16,6 +16,14 @@ class ConsulHandler(yml.YamlHandler):
     @property
     def environment_var_prefix(self):
         return 'CONSUL'
+
+    def serialize(self, config):
+        handler = config.__handler__(self.options)
+        return handler.serialize(config)
+
+    def deserialize(self, raw_config, config_cls):
+        handler = config_cls.__handler__(self.options)
+        return handler.deserialize(raw_config, config_cls)
 
     def fetch_config_data(self):
         import requests

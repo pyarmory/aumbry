@@ -31,4 +31,4 @@ class JsonHandler(AbstractHandler):
 
 
 class JsonConfig(JsonMappedModel):
-    pass
+    __handler__ = JsonHandler
