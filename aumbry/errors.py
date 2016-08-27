@@ -1,6 +1,7 @@
 class AumbryError(Exception):
     def __init__(self, message):
         self.message = message
+        super(AumbryError, self).__init__(message)
 
 
 class LoadError(AumbryError):

@@ -1,12 +1,11 @@
-import requests
 import time
 from six.moves.urllib.parse import urljoin
 
-from aumbry.contract import AbstractHandler
+from aumbry.formats import yml
 from aumbry.errors import LoadError
 
 
-class ConsulHandler(AbstractHandler):
+class ConsulHandler(yml.YamlHandler):
     extras_name = 'consul'
 
     @property
@@ -18,6 +17,8 @@ class ConsulHandler(AbstractHandler):
         return 'CONSUL'
 
     def fetch_config_data(self):
+        import requests
+
         consul_uri = self.vars['CONSUL_URI']
         consul_key = self.vars['CONSUL_KEY']
         timeout = self.vars.get('CONSUL_TIMEOUT', 10)
@@ -27,7 +28,8 @@ class ConsulHandler(AbstractHandler):
         full_uri = urljoin(consul_uri, '/v1/kv/{}'.format(consul_key))
 
         tries = 0
-        while tries < retries:
+        while tries <= retries:
+            tries += 1
             resp = requests.get(full_uri, timeout=timeout)
             if resp.status_code == 200:
                 return resp.content
@@ -37,3 +39,8 @@ class ConsulHandler(AbstractHandler):
                 )
 
             time.sleep(interval)
+
+        # If we've made it this far... boom!
+        msg = ('Hit max retry attempts. Consul returned {} when '
+               'fetching {}').format(resp.status_code, full_uri)
+        raise LoadError(msg)

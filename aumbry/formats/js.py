@@ -24,7 +24,10 @@ class JsonHandler(AbstractHandler):
         return JsonTransmuter.transmute_to(config)
 
     def deserialize(self, raw_config, config_cls):
-        return JsonTransmuter.transmute_from(raw_config, config_cls)
+        return JsonTransmuter.transmute_from(
+            raw_config.decode('utf-8'),
+            config_cls
+        )
 
 
 class JsonConfig(JsonMappedModel):
