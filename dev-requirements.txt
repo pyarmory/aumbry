@@ -1,3 +1,4 @@
+bumpversion
 tox
 twine
 -e .['yaml']
