@@ -12,7 +12,7 @@ class ConsulSource(AbstractSource):
 
     @property
     def imports(self):
-        return ['yaml', 'requests']
+        return ['requests']
 
     @property
     def environment_var_prefix(self):
