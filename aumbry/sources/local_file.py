@@ -1,0 +1,18 @@
+from aumbry.contract import AbstractSource
+from aumbry.utils.file import load_file
+
+
+class FileSource(AbstractSource):
+    extras_name = 'file'
+
+    @property
+    def imports(self):
+        return []
+
+    @property
+    def environment_var_prefix(self):
+        return 'CONFIG_FILE'
+
+    def fetch_config_data(self):
+        path = self.vars['CONFIG_FILE_PATH']
+        return load_file(path)

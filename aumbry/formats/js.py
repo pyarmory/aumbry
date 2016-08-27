@@ -12,14 +12,6 @@ class JsonHandler(AbstractHandler):
     def imports(self):
         return ['json']
 
-    @property
-    def environment_var_prefix(self):
-        return 'CONFIG_FILE'
-
-    def fetch_config_data(self):
-        path = self.vars['CONFIG_FILE_PATH']
-        return load_file(path)
-
     def serialize(self, config):
         return JsonTransmuter.transmute_to(config)
 

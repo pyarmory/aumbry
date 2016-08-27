@@ -8,8 +8,8 @@ import requests_mock
 from specter import Spec, DataSpec, expect
 from pike.discovery import py
 
-from aumbry.errors import UnknownHandlerError, LoadError
-from aumbry.formats import yml, js, consul
+from aumbry.errors import LoadError, UnknownSourceError
+from aumbry.formats import yml, js
 from aumbry import loader
 
 
@@ -50,14 +50,14 @@ def write_temp_file(raw):
 
 class VerifyLoaderHandlingFileBased(DataSpec):
     DATASET = {
-        'yaml': {'format': 'yaml', 'raw': raw_yaml, 'cls': SampleYamlConfig},
-        'json': {'format': 'json', 'raw': raw_json, 'cls': SampleJsonConfig},
+        'yaml': {'raw': raw_yaml, 'cls': SampleYamlConfig},
+        'json': {'raw': raw_json, 'cls': SampleJsonConfig},
     }
 
-    def can_load(self, format, raw, cls):
+    def can_load(self, raw, cls):
         temp, options = write_temp_file(raw)
 
-        cfg = loader.load(format, cls, options)
+        cfg = loader.load('file', cls, options)
         os.remove(temp.name)
 
         expect(cfg.nope).to.equal('testing')
@@ -115,17 +115,17 @@ class VerifyLoaderHandlingConsul(Spec):
 
 class CheckInvalidLoader(Spec):
     def raises_an_error(self):
-        expect(loader.load, ['bam', None]).to.raise_a(UnknownHandlerError)
+        expect(loader.load, ['bam', None]).to.raise_a(UnknownSourceError)
 
 
 class CustomHanderPaths(Spec):
     def setting_a_valid_path(self):
-        search_paths = py.get_module_by_name('aumbry.formats').__path__
+        search_paths = py.get_module_by_name('aumbry.sources').__path__
 
         temp, options = write_temp_file(raw_yaml)
 
         cfg = loader.load(
-            'yaml',
+            'file',
             SampleYamlConfig,
             options,
             search_paths=search_paths
@@ -134,12 +134,8 @@ class CustomHanderPaths(Spec):
 
         expect(cfg.nope).to.equal('testing')
 
-    def empty_list_raises_unknown_handler(self):
+    def empty_list_raises_unknown_source(self):
         expect(
             loader.load,
             ['bam', None, ['/tmp']]
-        ).to.raise_a(UnknownHandlerError)
-
-
-
-
+        ).to.raise_a(UnknownSourceError)

@@ -38,7 +38,7 @@ class VerifyFileUtils(Spec):
             # Doing this manually as test suites use open()
             try:
                 load_file(self.cfg_file.name)
-            except LoadError as e:
+            except LoadError:
                 raised_error = True
 
         expect(raised_error).to.be_true()

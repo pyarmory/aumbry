@@ -23,8 +23,8 @@ class DependencyError(AumbryError):
         super(DependencyError, self).__init__(msg)
 
 
-class UnknownHandlerError(AumbryError):
+class UnknownSourceError(AumbryError):
     def __init__(self, name):
-        super(UnknownHandlerError, self).__init__(
-            'Couldn\'t find a handler with the name: {}'.format(name)
+        super(UnknownSourceError, self).__init__(
+            'Couldn\'t find a source with the name: {}'.format(name)
         )

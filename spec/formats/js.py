@@ -3,8 +3,10 @@ import json
 from specter import Spec, expect
 from aumbry.formats.js import JsonConfig, JsonHandler
 
+
 class TestConfig(JsonConfig):
     __mapping__ = {'nope': ['nope', str]}
+
 
 class JsonSerialization(Spec):
     def can_serialize(self):
