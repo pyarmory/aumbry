@@ -118,7 +118,7 @@ class CheckInvalidLoader(Spec):
         expect(loader.load, ['bam', None]).to.raise_a(UnknownSourceError)
 
 
-class CustomHanderPaths(Spec):
+class CustomSourcePluginPaths(Spec):
     def setting_a_valid_path(self):
         search_paths = py.get_module_by_name('aumbry.sources').__path__
 
