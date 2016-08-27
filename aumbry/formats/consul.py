@@ -1,4 +1,5 @@
 import time
+import base64
 from six.moves.urllib.parse import urljoin
 
 from aumbry.formats import yml
@@ -32,7 +33,8 @@ class ConsulHandler(yml.YamlHandler):
             tries += 1
             resp = requests.get(full_uri, timeout=timeout)
             if resp.status_code == 200:
-                return resp.content
+                data = resp.json()[0].get('Value')
+                return base64.b64decode(data)
             elif resp.status_code == 404:
                 raise LoadError(
                     'Consul returned 404 when fetching {}'.format(full_uri)

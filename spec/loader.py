@@ -1,3 +1,5 @@
+import base64
+import json
 import os
 import tempfile
 from textwrap import dedent
@@ -64,7 +66,10 @@ class VerifyLoaderHandlingFileBased(DataSpec):
 class VerifyLoaderHandlingConsul(Spec):
     def can_successfully_load_from_consul(self):
         with requests_mock.Mocker() as mock:
-            mock.get('http://bam/v1/kv/test_key', text=raw_yaml)
+            resp = [{
+                'Value': base64.b64encode(raw_yaml)
+            }]
+            mock.get('http://bam/v1/kv/test_key', content=json.dumps(resp))
 
             options = {
                 'CONSUL_URI': 'http://bam',

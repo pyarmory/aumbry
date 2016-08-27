@@ -15,8 +15,8 @@ class ParsingError(AumbryError):
 class DependencyError(AumbryError):
     def __init__(self, extras_name):
         msg = (
-            'Dependencies unavailable: run "pip install aumbry[{}]" to acquire '
-            'to appropriate dependencies.'
+            'Dependencies unavailable: run "pip install aumbry[{}]" to '
+            'acquire to appropriate dependencies.'
         ).format(
             extras_name
         )
