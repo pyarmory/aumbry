@@ -66,10 +66,11 @@ class VerifyLoaderHandlingFileBased(DataSpec):
 class VerifyLoaderHandlingConsul(Spec):
     def can_successfully_load_from_consul(self):
         with requests_mock.Mocker() as mock:
+            value = base64.b64encode(raw_yaml.encode('utf-8'))
             resp = [{
-                'Value': base64.b64encode(raw_yaml)
+                'Value': value.decode('utf-8')
             }]
-            mock.get('http://bam/v1/kv/test_key', content=json.dumps(resp))
+            mock.get('http://bam/v1/kv/test_key', text=json.dumps(resp))
 
             options = {
                 'CONSUL_URI': 'http://bam',
