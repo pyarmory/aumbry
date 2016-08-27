@@ -3,3 +3,6 @@ twine
 -e .['yaml']
 -e .['consul']
 -r test-requirements.txt
+sphinx
+sphinx_rtd_theme
+sphinx-serve
