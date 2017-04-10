@@ -1,4 +1,4 @@
 flake8
 mock
 requests-mock
-specter
+specter>=0.6.1
