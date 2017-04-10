@@ -125,10 +125,19 @@ class VerifyLoaderHandlingConsul(Spec):
 
             expect(len(mock.request_history)).to.equal(2)
 
+    def save_raises_a_not_implemented_error(self):
+        cfg = SampleYamlConfig()
+        cfg.nope = 'testing'
+        expect(
+            aumbry.save,
+            [aumbry.CONSUL, cfg, {}]
+        ).to.raise_a(NotImplementedError)
+
 
 class CheckInvalidLoader(Spec):
     def raises_an_error(self):
         expect(aumbry.load, ['bam', None]).to.raise_a(UnknownSourceError)
+        expect(aumbry.save, ['bam', None]).to.raise_a(UnknownSourceError)
 
 
 class CustomSourcePluginPaths(Spec):

@@ -4,8 +4,8 @@ import six
 import tempfile
 
 from specter import Spec, expect
-from aumbry.errors import LoadError
-from aumbry.utils.file import load_file
+from aumbry.errors import LoadError, SaveError
+from aumbry.utils.file import load_file, save_file
 
 
 class VerifyFileUtils(Spec):
@@ -24,6 +24,7 @@ class VerifyFileUtils(Spec):
 
     def bad_path_raises_error(self):
         expect(load_file, ['nope']).to.raise_a(LoadError)
+        expect(save_file, [None, 'bam']).to.raise_a(SaveError)
 
     def error_during_open_or_read_raises_error(self):
         def magic_open(fn, mode):

@@ -49,4 +49,4 @@ class ConsulSource(AbstractSource):
         raise LoadError(msg)
 
     def save_config_data(self, data):
-        raise NotImplemented('This functionality hasn\'t been implemented yet')
+        raise NotImplementedError()
