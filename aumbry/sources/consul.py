@@ -47,3 +47,6 @@ class ConsulSource(AbstractSource):
         msg = ('Hit max retry attempts. Consul returned {} when '
                'fetching {}').format(resp.status_code, full_uri)
         raise LoadError(msg)
+
+    def save_config_data(self, data):
+        raise NotImplemented('This functionality hasn\'t been implemented yet')

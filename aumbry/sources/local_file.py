@@ -1,6 +1,6 @@
 from aumbry.contract import AbstractSource
 from aumbry.sources import SourceTypes
-from aumbry.utils.file import load_file
+from aumbry.utils.file import load_file, save_file
 
 
 class FileSource(AbstractSource):
@@ -17,3 +17,7 @@ class FileSource(AbstractSource):
     def fetch_config_data(self):
         path = self.vars['CONFIG_FILE_PATH']
         return load_file(path)
+
+    def save_config_data(self, data):
+        path = self.vars['CONFIG_FILE_PATH']
+        return save_file(path, data)

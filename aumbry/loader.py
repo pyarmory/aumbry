@@ -47,3 +47,29 @@ def load(source_name, config_class, options=None, search_paths=None):
 
     cfg_data = source.fetch_config_data()
     return handler.deserialize(cfg_data, config_class)
+
+
+def save(source_name, config_inst, options=None, search_paths=None):
+    """Loads a configration from a source into the specified Config type
+
+    Args:
+        source_name (str): The name of the desired source.
+        config_inst (AumbryConfig): The instance of a configuration class
+            wish save.
+        options (dict, optional): The options used by the source handler. The
+            keys are determined by each source handler. Refer to your source
+            handler documentation on what options are available.
+        search_paths (list, optional): A list paths for custom source handlers
+    """
+    source_cls = find_source(source_name, search_paths)
+    if not source_cls:
+        raise UnknownSourceError(source_name)
+
+    source = source_cls(options)
+    handler = config_inst.__handler__()
+
+    source.import_requirements()
+    handler.import_requirements()
+
+    data = handler.serialize(config_inst)
+    return source.save_config_data(data)

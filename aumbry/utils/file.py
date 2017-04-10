@@ -1,5 +1,5 @@
 import os
-from aumbry.errors import LoadError
+from aumbry.errors import LoadError, SaveError
 
 
 def load_file(filename):
@@ -11,3 +11,11 @@ def load_file(filename):
             return fp.read()
     except Exception as e:
         raise LoadError(str(e))
+
+
+def save_file(filename, data):
+    try:
+        with open(filename, 'wb') as fp:
+            return fp.write(data)
+    except Exception as e:
+        raise SaveError(str(e))

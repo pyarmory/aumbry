@@ -8,6 +8,10 @@ class LoadError(AumbryError):
     pass
 
 
+class SaveError(AumbryError):
+    pass
+
+
 class ParsingError(AumbryError):
     pass
 

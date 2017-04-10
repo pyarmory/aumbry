@@ -63,6 +63,18 @@ class VerifyLoaderHandlingFileBased(DataSpec):
 
         expect(cfg.nope).to.equal('testing')
 
+    def can_save(self, raw, cls):
+        cfg = cls()
+        cfg.nope = 'testing'
+
+        with tempfile.NamedTemporaryFile() as temp:
+            options = {'CONFIG_FILE_PATH': temp.name}
+            aumbry.save(aumbry.FILE, cfg, options)
+
+            # Load up the saved file
+            loaded_cfg = aumbry.load(aumbry.FILE, cls, options)
+            expect(loaded_cfg.nope).to.equal(cfg.nope)
+
 
 class VerifyLoaderHandlingConsul(Spec):
     def can_successfully_load_from_consul(self):
