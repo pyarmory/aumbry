@@ -12,6 +12,7 @@ from alchemize.mapping import Attr # NOQA
 
 FILE = SourceTypes.file
 CONSUL = SourceTypes.consul
+ETCD2 = SourceTypes.etcd2
 
 
 __all__ = [

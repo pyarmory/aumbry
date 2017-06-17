@@ -21,6 +21,9 @@ Aumbry is available on PyPI
     # For Consul dependencies
     pip install aumbry['consul']
 
+    # For Etcd2 dependencies
+    pip install aumbry['etcd2']
+
     # For Yaml dependencies
     pip install aumbry['yaml']
 

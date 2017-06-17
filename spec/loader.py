@@ -6,12 +6,11 @@ from textwrap import dedent
 
 import requests_mock
 from specter import Spec, DataSpec, expect
+from six.moves import urllib
 from pike.discovery import py
 
 import aumbry
-from aumbry.errors import LoadError, UnknownSourceError
-# from aumbry.formats import yml, js
-# from aumbry import loader
+from aumbry.errors import LoadError, SaveError, UnknownSourceError
 
 
 raw_json = dedent("""
@@ -132,6 +131,100 @@ class VerifyLoaderHandlingConsul(Spec):
             aumbry.save,
             [aumbry.CONSUL, cfg, {}]
         ).to.raise_a(NotImplementedError)
+
+
+class VerifyLoaderHandlingEtcd2(Spec):
+    def can_successfully_load_yaml_from_etcd(self):
+        with requests_mock.Mocker() as mock:
+            value = base64.b64encode(raw_yaml.encode('utf-8'))
+            resp = {
+                'node': {
+                    'value': value.decode('utf-8'),
+                },
+            }
+            mock.get('http://bam/v2/keys/test_key', text=json.dumps(resp))
+
+            options = {
+                'ETCD2_URI': 'http://bam',
+                'ETCD2_KEY': 'test_key',
+            }
+
+            cfg = aumbry.load(aumbry.ETCD2, SampleYamlConfig, options)
+            expect(cfg.nope).to.equal('testing')
+
+    def can_successfully_save_to_etcd(self):
+        with requests_mock.Mocker() as mock:
+            mock_save = mock.put(
+                'http://bam/v2/keys/test_key',
+                status_code=201,
+                text='{}'
+            )
+
+            cfg = SampleYamlConfig()
+            cfg.nope = 'testing'
+
+            aumbry.save(
+                aumbry.ETCD2,
+                cfg,
+                options={
+                    'ETCD2_URI': 'http://bam',
+                    'ETCD2_KEY': 'test_key',
+                }
+            )
+
+            body = urllib.parse.unquote(mock_save.last_request.text)
+            expect(body).to.equal('value=e25vcGU6IHRlc3Rpbmd9Cg==')
+
+    def handles_save_failure(self):
+        with requests_mock.Mocker() as mock:
+            mock.put(
+                'http://bam/v2/keys/test_key',
+                status_code=400,
+                text='{}'
+            )
+
+            args = [
+                aumbry.ETCD2,
+                SampleYamlConfig(),
+                {
+                    'ETCD2_URI': 'http://bam',
+                    'ETCD2_KEY': 'test_key',
+                }
+            ]
+
+            expect(aumbry.save, args).to.raise_a(SaveError)
+
+    def can_handle_404_from_consul(self):
+        with requests_mock.Mocker() as mock:
+            mock.get('http://bam/v2/keys/test_key', status_code=404)
+
+            options = {
+                'ETCD2_URI': 'http://bam',
+                'ETCD2_KEY': 'test_key',
+            }
+
+            expect(
+                aumbry.load,
+                ['etcd2', SampleYamlConfig, options]
+            ).to.raise_a(LoadError)
+
+    def will_retry_on_other_codes(self):
+        with requests_mock.Mocker() as mock:
+            mock.get('http://bam/v2/keys/test_key', status_code=503)
+
+            options = {
+                'ETCD2_URI': 'http://bam',
+                'ETCD2_KEY': 'test_key',
+                'ETCD2_TIMEOUT': 1,
+                'ETCD2_RETRY_INTERVAL': 1,
+            }
+
+            expect(
+                aumbry.load,
+                ['etcd2', SampleYamlConfig, options]
+            ).to.raise_a(LoadError)
+
+            expect(len(mock.request_history)).to.equal(2)
 
 
 class CheckInvalidLoader(Spec):

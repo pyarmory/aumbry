@@ -72,4 +72,4 @@ def save(source_name, config_inst, options=None, search_paths=None):
     handler.import_requirements()
 
     data = handler.serialize(config_inst)
-    return source.save_config_data(data)
+    return source.save_config_data(data, handler)

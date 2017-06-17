@@ -28,6 +28,7 @@ configuration data into application specific data models for your project.
 
 * File
 * Consul
+* Etcd2
 
 **Configuration Formats Supported:**
 
@@ -44,6 +45,9 @@ Installation
 
     # Install consul support
     pip install aumbry['consul']
+
+    # Install etcd2 support
+    pip install aumbry['etcd2']
 
     # Install yaml support
     pip install aumbry['yaml']

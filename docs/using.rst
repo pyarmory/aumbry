@@ -14,6 +14,9 @@ the extra dependencies using the following convention:
     # For Consul dependencies
     pip install aumbry['consul']
 
+    # For Etcd2 dependencies
+    pip install aumbry['etcd2']
+
     # For Yaml dependencies
     pip install aumbry['yaml']
 
@@ -120,6 +123,60 @@ CONSUL_KEY                       Required
 CONSUL_TIMEOUT            10     Timeout per-request
 CONSUL_RETRY_MAX           1     Number of retries to attempt
 CONSUL_RETRY_INTERVAL     10     Wait period between retries
+===================== ========== ============================
+
+Loading from Etcd2
+------------------
+
+As mentioned under the Dependencies section, the dependencies to load from
+etcd2 are not included by default. As a result, we need to first install
+our extra dependencies.
+
+.. code-block:: shell
+
+    pip install aumbry['etcd2']
+
+Much like our loading from a file example, we need a configuration class and
+set our options for the Etcd2 source.
+
+.. code-block:: python
+
+    import aumbry
+
+
+    class SampleConfig(aumbry.JsonConfig):
+        __mapping__ = {
+            'something': ['something', str],
+        }
+
+
+    # You can either specify the options here or via environment variables
+    options = {
+        'ETCD2_URI': 'http://myhost:8500',
+        'ETCD2_KEY': 'test',
+    }
+
+    # Time to load it up!
+    config = aumbry.load(aumbry.ETCD2, SampleConfig, options)
+
+    print(config.something) # it works!
+
+It is important to note that the Etcd2 source will block until it either
+cannot load, reaches max retries, or successfully loads.
+
+Etcd2 Options
+^^^^^^^^^^^^^
+Like all options, these can be manually specified when calling ``load()``
+or via environment variables.
+
+===================== ========== ============================
+       Key             Default   Notes
+===================== ========== ============================
+ETCD2_URI                        Required
+ETCD2_KEY                        Required
+ETCD2_TIMEOUT             10     Timeout per-request
+ETCD2_RETRY_MAX            1     Number of retries to attempt
+ETCD2_RETRY_INTERVAL      10     Wait period between retries
 ===================== ========== ============================
 
 

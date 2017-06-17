@@ -18,6 +18,6 @@ class FileSource(AbstractSource):
         path = self.vars['CONFIG_FILE_PATH']
         return load_file(path)
 
-    def save_config_data(self, data):
+    def save_config_data(self, data, handler):
         path = self.vars['CONFIG_FILE_PATH']
         return save_file(path, data)

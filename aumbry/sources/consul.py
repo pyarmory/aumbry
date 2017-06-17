@@ -48,5 +48,5 @@ class ConsulSource(AbstractSource):
                'fetching {}').format(resp.status_code, full_uri)
         raise LoadError(msg)
 
-    def save_config_data(self, data):
+    def save_config_data(self, data, handler):
         raise NotImplementedError()

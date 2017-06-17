@@ -28,6 +28,7 @@ setup(
     extras_require={
         'yaml': ['pyyaml'],
         'consul': ['requests'],
+        'etcd2': ['requests'],
     },
     package_data={},
     data_files=[],
