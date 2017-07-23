@@ -36,3 +36,18 @@ class CheckContract(Spec):
         ct = TestContract()
         ct.imports = [('nope_nope_nope', 'the_nope_package')]
         expect(ct.import_requirements, []).to.raise_a(errors.DependencyError)
+
+
+class CheckConfigExtras(Spec):
+    def is_iterable(self):
+        class TestConfig(contract.AumbryConfig):
+            __mapping__ = {
+                'test': ['test', str],
+                'another': ['another', str],
+            }
+
+        tester = TestConfig()
+        tester.test = 'thing'
+
+        expect('test').to.be_in(tester)
+        expect(['test']).to.equal(list(tester))

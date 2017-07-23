@@ -20,7 +20,8 @@ def find_source(name, search_paths=None):
     return find_plugin(name, AbstractSource, search_paths)
 
 
-def load(source_name, config_class, options=None, search_paths=None):
+def load(source_name, config_class, options=None, search_paths=None,
+         preprocessor=None):
     """Loads a configration from a source into the specified Config type
 
     Args:
@@ -31,6 +32,8 @@ def load(source_name, config_class, options=None, search_paths=None):
             keys are determined by each source handler. Refer to your source
             handler documentation on what options are available.
         search_paths (list, optional): A list paths for custom source handlers
+        preprocessor (function): A function that pre-processes the source
+            data before loading into the configuration object.
 
     Returns:
         An instance of the passed in config_class
@@ -46,10 +49,15 @@ def load(source_name, config_class, options=None, search_paths=None):
     handler.import_requirements()
 
     cfg_data = source.fetch_config_data()
+
+    if preprocessor:
+        cfg_data = preprocessor(cfg_data)
+
     return handler.deserialize(cfg_data, config_class)
 
 
-def save(source_name, config_inst, options=None, search_paths=None):
+def save(source_name, config_inst, options=None, search_paths=None,
+         preprocessor=None):
     """Loads a configration from a source into the specified Config type
 
     Args:
@@ -60,6 +68,8 @@ def save(source_name, config_inst, options=None, search_paths=None):
             keys are determined by each source handler. Refer to your source
             handler documentation on what options are available.
         search_paths (list, optional): A list paths for custom source handlers
+        preprocessor (function): A function that pre-processes the configration
+            data before saving to the source.
     """
     source_cls = find_source(source_name, search_paths)
     if not source_cls:
@@ -72,4 +82,8 @@ def save(source_name, config_inst, options=None, search_paths=None):
     handler.import_requirements()
 
     data = handler.serialize(config_inst)
+
+    if preprocessor:
+        data = preprocessor(data)
+
     return source.save_config_data(data, handler)

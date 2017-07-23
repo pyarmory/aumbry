@@ -15,7 +15,7 @@ class YamlHandler(js.JsonHandler):
         import yaml
 
         config_dict = JsonTransmuter.transmute_to(config, to_string=False)
-        return yaml.dump(config_dict)
+        return yaml.dump(config_dict).encode('utf-8')
 
     def deserialize(self, raw_config, config_cls):
         import yaml

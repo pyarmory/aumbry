@@ -16,6 +16,6 @@ def load_file(filename):
 def save_file(filename, data):
     try:
         with open(filename, 'wb') as fp:
-            return fp.write(data.encode('utf-8'))
+            return fp.write(data)
     except Exception as e:
         raise SaveError(str(e))
