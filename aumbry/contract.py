@@ -71,3 +71,6 @@ class AbstractHandler(PluginBase):
 
 class AumbryConfig(JsonMappedModel):
     __handler__ = None
+
+    def __iter__(self):
+        return (key for key in dir(self) if key in self.__mapping__)
