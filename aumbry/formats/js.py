@@ -11,7 +11,7 @@ class JsonHandler(AbstractHandler):
         return ['json']
 
     def serialize(self, config):
-        return JsonTransmuter.transmute_to(config)
+        return JsonTransmuter.transmute_to(config).encode('utf-8')
 
     def deserialize(self, raw_config, config_cls):
         return JsonTransmuter.transmute_from(

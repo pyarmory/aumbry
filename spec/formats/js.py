@@ -15,6 +15,7 @@ class JsonSerialization(Spec):
 
         handler = JsonHandler()
         raw = handler.serialize(cfg)
+        expect(type(raw)).to.equal(bytes)
 
-        res = json.loads(raw)
+        res = json.loads(raw.decode('utf-8'))
         expect(res['nope']).to.equal('testing')

@@ -15,6 +15,7 @@ class YamlSerialization(Spec):
 
         handler = YamlHandler()
         raw = handler.serialize(cfg)
+        expect(type(raw)).to.equal(bytes)
 
         res = yaml.load(raw)
         expect(res['nope']).to.equal('testing')

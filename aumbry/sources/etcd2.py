@@ -63,7 +63,7 @@ class Etcd2Source(AbstractSource):
         etcd_key = self.vars['ETCD2_KEY']
         full_uri = self._build_uri(base_uri, etcd_key)
 
-        to_save = base64.b64encode(data.encode('utf-8'))
+        to_save = base64.b64encode(data)
         resp = requests.put(full_uri, data={'value': to_save})
 
         if resp.status_code != 201:
