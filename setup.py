@@ -24,7 +24,7 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
 
-    keywords='configuration plugin multiple',
+    keywords='configuration yaml etcd json parameter store multiple',
     packages=find_packages(exclude=['contrib', 'docs', 'spec*']),
     install_requires=[
         'six',
