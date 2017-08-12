@@ -20,6 +20,12 @@ the extra dependencies using the following convention:
     # For Yaml dependencies
     pip install aumbry['yaml']
 
+    # For Parameter Store dependencies
+    pip install aumbry['param_store']
+
+    # Installing multiple dependencies
+    pip install aumbry['etcd2','yaml']
+
 
 Loading from a File
 -------------------
@@ -179,6 +185,64 @@ ETCD2_RETRY_MAX            1     Number of retries to attempt
 ETCD2_RETRY_INTERVAL      10     Wait period between retries
 ===================== ========== ============================
 
+Loading from AWS Parameter Store
+--------------------------------
+
+As mentioned under the Dependencies section, the dependencies to load from
+the parameter store are not included by default. As a result, we need to
+first install our extra dependencies.
+
+.. code-block:: shell
+
+    pip install aumbry['param_store']
+
+To use the parameter store functionality, we need to use the generic
+configuration class or force the usage of the generic handler on ``load()``
+and ``save()``.
+
+.. code-block:: python
+
+    import aumbry
+
+
+    class SampleConfig(aumbry.GenericConfig):
+        __mapping__ = {
+            'something': ['something', str],
+        }
+
+
+    # You can either specify the options here or via environment variables
+    options = {
+        'PARAMETER_STORE_AWS_REGION': 'us-west-2',
+        'PARAMETER_STORE_PREFIX': '/prod/my_app',
+    }
+
+    # Time to load it up!
+    config = aumbry.load(aumbry.PARAM_STORE, SampleConfig, options)
+
+    print(config.something) # it works!
+
+.. note::
+
+    If you need to mix configuration types, such as using a ``YamlConfig``,
+    you'll need to tell Aumbry to attempt to coerce the configuration using
+    the :class:`aumbry.formats.generic.GenericHandler` when calling
+    :meth:`aumbry.load` and :meth:`aumbry.save`.
+
+Parameter Store Options
+^^^^^^^^^^^^^^^^^^^^^^^
+Like all options, these can be manually specified when calling ``load()``
+or via environment variables.
+
+=================================== =============== ============================
+       Key                           Default        Notes
+=================================== =============== ============================
+PARAMETER_STORE_AWS_REGION                          Required
+PARAMETER_STORE_PREFIX                              Required
+PARAMETER_STORE_AWS_ACCESS_ID                       If empty, the default machine credentials are used
+PARAMETER_STORE_AWS_ACCESS_SECRET                   If empty, the default machine credentials are used
+PARAMETER_STORE_AWS_KMS_KEY_ID      Account Default
+=================================== =============== ============================
 
 Building Configuration Models
 -----------------------------

@@ -22,7 +22,7 @@ class Etcd2Source(AbstractSource):
     def environment_var_prefix(self):
         return 'ETCD2'
 
-    def fetch_config_data(self):
+    def fetch_config_data(self, cfg_class):
         import requests
 
         base_uri = self.vars['ETCD2_URI']
@@ -56,7 +56,7 @@ class Etcd2Source(AbstractSource):
                'fetching {}').format(resp.status_code, full_uri)
         raise LoadError(msg)
 
-    def save_config_data(self, data, handler):
+    def save_config_data(self, data, handler, cfg):
         import requests
 
         base_uri = self.vars['ETCD2_URI']

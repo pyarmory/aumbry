@@ -21,7 +21,7 @@ def find_source(name, search_paths=None):
 
 
 def load(source_name, config_class, options=None, search_paths=None,
-         preprocessor=None):
+         preprocessor=None, handler=None):
     """Loads a configration from a source into the specified Config type
 
     Args:
@@ -34,6 +34,8 @@ def load(source_name, config_class, options=None, search_paths=None,
         search_paths (list, optional): A list paths for custom source handlers
         preprocessor (function): A function that pre-processes the source
             data before loading into the configuration object.
+        handler (AbstractHandler): An instance of a handler to process the
+            configuration data.
 
     Returns:
         An instance of the passed in config_class
@@ -43,12 +45,14 @@ def load(source_name, config_class, options=None, search_paths=None,
         raise UnknownSourceError(source_name)
 
     source = source_cls(options)
-    handler = config_class.__handler__()
+
+    if not handler:
+        handler = config_class.__handler__()
 
     source.import_requirements()
     handler.import_requirements()
 
-    cfg_data = source.fetch_config_data()
+    cfg_data = source.fetch_config_data(config_class)
 
     if preprocessor:
         cfg_data = preprocessor(cfg_data)
@@ -57,7 +61,7 @@ def load(source_name, config_class, options=None, search_paths=None,
 
 
 def save(source_name, config_inst, options=None, search_paths=None,
-         preprocessor=None):
+         preprocessor=None, handler=None):
     """Loads a configration from a source into the specified Config type
 
     Args:
@@ -70,13 +74,18 @@ def save(source_name, config_inst, options=None, search_paths=None,
         search_paths (list, optional): A list paths for custom source handlers
         preprocessor (function): A function that pre-processes the configration
             data before saving to the source.
+        handler (AbstractHandler): An instance of a handler to process the
+            configuration data. Defaults to the configuration handler.
+
     """
     source_cls = find_source(source_name, search_paths)
     if not source_cls:
         raise UnknownSourceError(source_name)
 
     source = source_cls(options)
-    handler = config_inst.__handler__()
+
+    if not handler:
+        handler = config_inst.__handler__()
 
     source.import_requirements()
     handler.import_requirements()
@@ -86,4 +95,4 @@ def save(source_name, config_inst, options=None, search_paths=None,
     if preprocessor:
         data = preprocessor(data)
 
-    return source.save_config_data(data, handler)
+    return source.save_config_data(data, handler, config_inst)

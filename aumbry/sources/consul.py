@@ -18,7 +18,7 @@ class ConsulSource(AbstractSource):
     def environment_var_prefix(self):
         return 'CONSUL'
 
-    def fetch_config_data(self):
+    def fetch_config_data(self, cfg_class):
         import requests
 
         consul_uri = self.vars['CONSUL_URI']
@@ -48,5 +48,5 @@ class ConsulSource(AbstractSource):
                'fetching {}').format(resp.status_code, full_uri)
         raise LoadError(msg)
 
-    def save_config_data(self, data, handler):
+    def save_config_data(self, data, handler, cfg):
         raise NotImplementedError()

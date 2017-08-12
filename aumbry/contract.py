@@ -41,8 +41,12 @@ class AbstractSource(PluginBase):
         self.vars.update(self.options)
 
     @abc.abstractmethod
-    def fetch_config_data(self):
-        """ Retrieves configuration data from pre-configured location. """
+    def fetch_config_data(self, cfg_class):
+        """Retrieves configuration data"""
+
+    @abc.abstractmethod
+    def save_config_data(self, data, handler, cfg):
+        """Saves configuration data"""
 
     @abc.abstractproperty
     def environment_var_prefix(self):
