@@ -179,6 +179,57 @@ ETCD2_RETRY_MAX            1     Number of retries to attempt
 ETCD2_RETRY_INTERVAL      10     Wait period between retries
 ===================== ========== ============================
 
+Loading from AWS Parameter Store
+--------------------------------
+
+As mentioned under the Dependencies section, the dependencies to load from
+the parameter store are not included by default. As a result, we need to
+first install our extra dependencies.
+
+.. code-block:: shell
+
+    pip install aumbry['param_store']
+
+To use the parameter store functionality, we need to use the generic
+configuration class or force the usage of the generic handler on ``load()``
+and ``save()``.
+
+.. code-block:: python
+
+    import aumbry
+
+
+    class SampleConfig(aumbry.GenericConfig):
+        __mapping__ = {
+            'something': ['something', str],
+        }
+
+
+    # You can either specify the options here or via environment variables
+    options = {
+        'PARAMETER_STORE_AWS_REGION': 'us-west-2',
+        'PARAMETER_STORE_PREFIX': '/prod/my_app',
+    }
+
+    # Time to load it up!
+    config = aumbry.load(aumbry.PARAM_STORE, SampleConfig, options)
+
+    print(config.something) # it works!
+
+Parameter Store Options
+^^^^^^^^^^^^^^^^^^^^^^^
+Like all options, these can be manually specified when calling ``load()``
+or via environment variables.
+
+=================================== =============== ============================
+       Key                           Default        Notes
+=================================== =============== ============================
+PARAMETER_STORE_AWS_REGION                          Required
+PARAMETER_STORE_PREFIX                              Required
+PARAMETER_STORE_AWS_ACCESS_ID                       If empty, the default machine credentials are used
+PARAMETER_STORE_AWS_ACCESS_SECRET                   If empty, the default machine credentials are used
+PARAMETER_STORE_AWS_KMS_KEY_ID      Account Default
+=================================== =============== ============================
 
 Building Configuration Models
 -----------------------------

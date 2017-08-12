@@ -3,3 +3,4 @@ class SourceTypes(object):
     file = 'file'
     consul = 'consul'
     etcd2 = 'etcd2'
+    parameter_store = 'parameter_store'

@@ -24,11 +24,16 @@ setup(
 
     keywords='configuration plugin multiple',
     packages=find_packages(exclude=['contrib', 'docs', 'spec*']),
-    install_requires=['six', 'alchemize', 'pike'],
+    install_requires=[
+        'six',
+        'alchemize>=0.7.1',
+        'pike'
+    ],
     extras_require={
         'yaml': ['pyyaml'],
         'consul': ['requests'],
         'etcd2': ['requests'],
+        'param_store': ['boto3'],
     },
     package_data={},
     data_files=[],

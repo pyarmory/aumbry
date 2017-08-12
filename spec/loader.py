@@ -7,10 +7,12 @@ from textwrap import dedent
 import requests_mock
 from specter import Spec, DataSpec, expect
 from six.moves import urllib
+from moto import mock_ssm
 from pike.discovery import py
 
 import aumbry
 from aumbry.errors import LoadError, SaveError, UnknownSourceError
+from aumbry.formats.generic import GenericHandler
 
 
 raw_json = dedent("""
@@ -35,6 +37,15 @@ class SampleJsonConfig(aumbry.JsonConfig):
 class SampleYamlConfig(aumbry.YamlConfig):
     __mapping__ = {
         'nope': ['nope', str]
+    }
+
+
+class SampleGenericConfig(aumbry.GenericConfig):
+    __mapping__ = {
+        'nope': ['nope', str],
+        'sample_list': ['sample_list', list],
+        'sample_dict': ['sample_dict', dict],
+        'sample_model': ['sample_model', SampleJsonConfig],
     }
 
 
@@ -249,6 +260,70 @@ class VerifyLoaderHandlingEtcd2(Spec):
             ).to.raise_a(LoadError)
 
             expect(len(mock.request_history)).to.equal(2)
+
+
+class VerifyLoaderHandlingParameterStore(Spec):
+    def can_successfully_save_and_load(self):
+        with mock_ssm():
+            options = {
+                'PARAMETER_STORE_AWS_REGION': 'us-west-2',
+                'PARAMETER_STORE_PREFIX': '/aumbry-test',
+            }
+            expected_cfg = SampleGenericConfig()
+            expected_cfg.nope = 'testing'
+            expected_cfg.sample_list = ['trace']
+            expected_cfg.sample_dict = {'trace': 'boom'}
+            expected_cfg.sample_model = SampleJsonConfig()
+            expected_cfg.sample_model.nope = 'testing2'
+
+            # Save Sample Config
+            aumbry.save(
+                aumbry.PARAM_STORE,
+                expected_cfg,
+                options
+            )
+
+            # Retrieve back the config
+            cfg = aumbry.load(
+                aumbry.PARAM_STORE,
+                SampleGenericConfig,
+                options
+            )
+
+        expect(cfg.nope).to.equal(expected_cfg.nope)
+        expect(cfg.sample_dict).to.equal({'trace': 'boom'})
+        expect(cfg.sample_list).to.equal(expected_cfg.sample_list)
+        expect(cfg.sample_model.nope).to.equal(expected_cfg.sample_model.nope)
+
+    def can_use_yaml_cfg_with_handler_override(self):
+        with mock_ssm():
+            options = {
+                'PARAMETER_STORE_AWS_REGION': 'us-west-2',
+                'PARAMETER_STORE_PREFIX': '/aumbry-test',
+            }
+
+            expected_cfg = SampleYamlConfig()
+            expected_cfg.nope = 'testing'
+
+            handler = GenericHandler()
+
+            # Save Sample Config
+            aumbry.save(
+                aumbry.PARAM_STORE,
+                expected_cfg,
+                options,
+                handler=handler
+            )
+
+            # Retrieve back the config
+            cfg = aumbry.load(
+                aumbry.PARAM_STORE,
+                SampleGenericConfig,
+                options,
+                handler=handler
+            )
+
+        expect(cfg.nope).to.equal(expected_cfg.nope)
 
 
 class CheckInvalidLoader(Spec):

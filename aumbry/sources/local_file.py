@@ -14,10 +14,10 @@ class FileSource(AbstractSource):
     def environment_var_prefix(self):
         return 'CONFIG_FILE'
 
-    def fetch_config_data(self):
+    def fetch_config_data(self, cfg_class):
         path = self.vars['CONFIG_FILE_PATH']
         return load_file(path)
 
-    def save_config_data(self, data, handler):
+    def save_config_data(self, data, handler, cfg):
         path = self.vars['CONFIG_FILE_PATH']
         return save_file(path, data)
