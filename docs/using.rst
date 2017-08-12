@@ -222,6 +222,13 @@ and ``save()``.
 
     print(config.something) # it works!
 
+.. note::
+
+    If you need to mix configuration types, such as using a ``YamlConfig``,
+    you'll need to tell Aumbry to attempt to coerce the configuration using
+    the :class:`aumbry.formats.generic.GenericHandler` when calling
+    :meth:`aumbry.load` and :meth:`aumbry.save`.
+
 Parameter Store Options
 ^^^^^^^^^^^^^^^^^^^^^^^
 Like all options, these can be manually specified when calling ``load()``
