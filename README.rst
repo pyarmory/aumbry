@@ -29,6 +29,7 @@ configuration data into application specific data models for your project.
 * File
 * Consul
 * Etcd2
+* AWS Parameter Store
 
 **Configuration Formats Supported:**
 
@@ -51,3 +52,9 @@ Installation
 
     # Install yaml support
     pip install aumbry['yaml']
+
+    # Install parameter store dependencies
+    pip install aumbry['param_store']
+
+    # Installing multiple dependencies
+    pip install aumbry['etcd2','yaml']

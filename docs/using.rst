@@ -20,6 +20,12 @@ the extra dependencies using the following convention:
     # For Yaml dependencies
     pip install aumbry['yaml']
 
+    # For Parameter Store dependencies
+    pip install aumbry['param_store']
+
+    # Installing multiple dependencies
+    pip install aumbry['etcd2','yaml']
+
 
 Loading from a File
 -------------------
