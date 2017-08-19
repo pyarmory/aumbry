@@ -210,6 +210,29 @@ class VerifyLoaderHandlingEtcd2(Spec):
             body = urllib.parse.unquote(mock_save.last_request.text)
             expect(body).to.equal('value=e25vcGU6IHRlc3Rpbmd9Cg==')
 
+    def can_successfully_update_existing_in_etcd(self):
+        with requests_mock.Mocker() as mock:
+            mock_save = mock.put(
+                'http://bam/v2/keys/test_key',
+                status_code=200,
+                text='{}'
+            )
+
+            cfg = SampleYamlConfig()
+            cfg.nope = 'testing'
+
+            aumbry.save(
+                aumbry.ETCD2,
+                cfg,
+                options={
+                    'ETCD2_URI': 'http://bam',
+                    'ETCD2_KEY': 'test_key',
+                }
+            )
+
+            body = urllib.parse.unquote(mock_save.last_request.text)
+            expect(body).to.equal('value=e25vcGU6IHRlc3Rpbmd9Cg==')
+
     def handles_save_failure(self):
         with requests_mock.Mocker() as mock:
             mock.put(

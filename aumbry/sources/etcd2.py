@@ -66,7 +66,7 @@ class Etcd2Source(AbstractSource):
         to_save = base64.b64encode(data)
         resp = requests.put(full_uri, data={'value': to_save})
 
-        if resp.status_code != 201:
+        if resp.status_code != 200 and resp.status_code != 201:
             raise SaveError(
                 'Etcd returned {} when attempting to save {}'.format(
                     resp.status_code,
