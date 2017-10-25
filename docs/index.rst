@@ -34,6 +34,7 @@ Contents:
 
    using
    api
+   cli
 
 .. _Alchemize: https://alchemize.readthedocs.io
 
