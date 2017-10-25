@@ -41,7 +41,7 @@ setup(
     data_files=[],
     entry_points={
         'console_scripts': [
-            'aumbry = aumbry.cli:main'
+            'aumbry = aumbry.cli.app:main'
         ],
     },
 )
