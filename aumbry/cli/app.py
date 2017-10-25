@@ -19,9 +19,12 @@ def parse_arguments(argv=None):
 
 def main(argv=None):
     arguments = parse_arguments(argv)
+    code = None
 
     if arguments.command == 'upload':
-        upload.command(arguments)
+        code = upload.command(arguments)
 
     elif arguments.command == 'edit':
-        edit.command(arguments)
+        code = edit.command(arguments)
+
+    return code
