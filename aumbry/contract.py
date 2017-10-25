@@ -20,7 +20,7 @@ class PluginBase(object):
         def _import(req, pkg=None):
             try:
                 importlib.import_module(req, pkg)
-            except:
+            except BaseException:
                 raise DependencyError(self.extras_name)
 
         for req in self.imports:

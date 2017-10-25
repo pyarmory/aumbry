@@ -3,3 +3,4 @@ mock
 requests-mock
 specter>=0.6.1
 moto>=1.0.1
+pretend
