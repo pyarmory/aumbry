@@ -3,6 +3,7 @@ tox
 twine
 -e .['yaml']
 -e .['consul']
+-e .['cli']
 -r test-requirements.txt
 sphinx
 sphinx_rtd_theme

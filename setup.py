@@ -36,6 +36,12 @@ setup(
         'consul': ['requests'],
         'etcd2': ['requests'],
         'param_store': ['boto3'],
+        'cli': [
+            'pyyaml',
+            'requests',
+            'boto3',
+            'cryptography>=2.1.2'
+        ],
     },
     package_data={},
     data_files=[],
