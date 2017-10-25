@@ -1,6 +1,7 @@
 import argparse
-import sys
+import tempfile
 
+from cryptography.fernet import Fernet
 from pike.discovery import py
 from pike.manager import PikeManager
 
@@ -18,6 +19,7 @@ def parse_arguments(argv=None):
     upload = subparsers.add_parser('upload', help='Uploads a configuration file')
     upload.set_defaults(command='upload')
     upload.add_argument('--package-root', type=str, default='./')
+    upload.add_argument('--fernet-key', type=str)
 
     upload.add_argument('--consul-uri', type=str)
     upload.add_argument('--consul-key', type=str)
@@ -90,8 +92,31 @@ def has_required(dest_type, options):
     return all(key in options for key in required[dest_type])
 
 
+def setup_up_config(func):
+    def wrapper(arguments):
+        ext = '.{}'.format(arguments.file_type)
+
+        with open(arguments.path, 'rb') as fp:
+            file_data = fp.read()
+
+        if arguments.fernet_key:
+            f = Fernet(arguments.fernet_key.encode('utf-8'))
+            file_data = f.decrypt(file_data)
+
+        with tempfile.NamedTemporaryFile(suffix=ext) as fp:
+            fp.write(file_data)
+            fp.file.flush()
+
+            arguments.path = fp.name
+            return func(arguments)
+
+    return wrapper
+
+
+@setup_up_config
 def upload(arguments):
     options = build_options(arguments)
+    file_path = arguments.path
     input_handler = JsonHandler()
     output_handler = None
 
@@ -103,13 +128,13 @@ def upload(arguments):
 
     if not has_required(arguments.dest, options):
         print('Missing required options for destination type')
-        sys.exit(1)
+        return 1
 
     package_ref, _, name = arguments.config_class.partition(':')
     if not name:
         print('config_class: requires a package and class reference')
         print('Example: my_package.sub:AppConfig')
-        sys.exit(1)
+        return 1
 
     with PikeManager([arguments.package_root]):
         module = py.get_module_by_name(package_ref)
@@ -119,7 +144,7 @@ def upload(arguments):
         cfg = aumbry.load(
             aumbry.FILE,
             config_cls,
-            {'CONFIG_FILE_PATH': arguments.path},
+            {'CONFIG_FILE_PATH': file_path},
             handler=input_handler
         )
 
