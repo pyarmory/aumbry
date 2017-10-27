@@ -6,7 +6,7 @@ with open('README.rst') as f:
 
 setup(
     name='aumbry',
-    version='0.6.3',
+    version='0.6.4',
     description=('Multi-type configuration library for Python'),
     long_description=desc,
     url='https://github.com/pyarmory/aumbry',
