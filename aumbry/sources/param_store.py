@@ -92,21 +92,18 @@ class ParameterStoreSource(AbstractSource):
 
         return result
 
-    def dict_to_params(self, input_dict, prefix, source, params=None):
-        params = params or []
+    def dict_to_params(self, input_dict, prefix, source, params):
         mapping = get_normalized_map(source)
 
         for key, val in input_dict.items():
             path = '{}/{}'.format(prefix, key)
 
             if isinstance(val, dict) and mapping.get(key).type != dict:
-                params.extend(
-                    self.dict_to_params(
-                        val,
-                        path,
-                        mapping.get(key).type,
-                        params,
-                    )
+                self.dict_to_params(
+                    val,
+                    path,
+                    mapping.get(key).type,
+                    params,
                 )
 
             else:
@@ -158,7 +155,7 @@ class ParameterStoreSource(AbstractSource):
         access_secret = self.vars.get('PARAMETER_STORE_AWS_ACCESS_SECRET')
         key_id = self.vars.get('PARAMETER_STORE_AWS_KMS_KEY_ID')
 
-        params = self.dict_to_params(data, prefix, cfg)
+        params = self.dict_to_params(data, prefix, cfg, [])
 
         ssm = boto3.client(
             'ssm',
