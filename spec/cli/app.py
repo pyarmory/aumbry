@@ -1,7 +1,6 @@
 import subprocess
 
 import mock
-from pretend import stub
 from specter import Spec, expect
 
 import aumbry
@@ -128,11 +127,11 @@ class CLIBehaviors(Spec):
         assert path is not None
         assert output == ['Saved configuration to "./spec/cli/sample.yml"...']
 
-    def invalid_command_returns_none(self):
-        with mock.patch.object(app, 'parse_arguments') as parse_mock:
-            parse_mock.return_value = stub(command='nope')
+    def view_output_a_file(self):
+        with OutputCapture() as output:
+            app.main(['view', './spec/cli/sample.yml'])
 
-            assert app.main(['nope']) is None
+        assert output == ['thing: bam', 'other: thing', '']
 
 
 class SampleConfig(aumbry.YamlConfig):

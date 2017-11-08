@@ -1,6 +1,6 @@
 import argparse
 
-from aumbry.cli import upload, edit
+from aumbry.cli import upload, edit, view
 
 
 def parse_arguments(argv=None):
@@ -13,18 +13,17 @@ def parse_arguments(argv=None):
 
     upload.setup_arguments(subparsers)
     edit.setup_arguments(subparsers)
+    view.setup_arguments(subparsers)
 
     return parser.parse_args(argv)
 
 
 def main(argv=None):
     arguments = parse_arguments(argv)
-    code = None
+    commands = {
+        'upload': upload.command,
+        'edit': edit.command,
+        'view': view.command,
+    }
 
-    if arguments.command == 'upload':
-        code = upload.command(arguments)
-
-    elif arguments.command == 'edit':
-        code = edit.command(arguments)
-
-    return code
+    return commands[arguments.command](arguments)
