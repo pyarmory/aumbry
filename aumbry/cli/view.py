@@ -4,7 +4,7 @@ from aumbry.cli.utils import setup_up_config
 def setup_arguments(subparsers):
     view = subparsers.add_parser(
         'view',
-        help='Edits a configuration file'
+        help='Displays a configuration file'
     )
     view.set_defaults(command='view')
 

@@ -21,14 +21,15 @@ Usage
 
 .. code-block:: bash
 
-    usage: aumbry [-h] {upload,edit} ...
+    usage: aumbry [-h] {upload,edit,view} ...
 
     CLI Tool for Aumbry
 
     positional arguments:
-      {upload,edit}
+      {upload,edit,view}
         upload       Uploads a configuration file
         edit         Edits a configuration file
+        view         Displays a configuration file
 
     optional arguments:
       -h, --help     show this help message and exit
@@ -57,6 +58,16 @@ The edit sub-command enabled you to open up your configuration file.
 .. code-block:: bash
 
     aumbry edit ./path/to/my/config.yml
+
+View
+^^^^
+
+The view sub-command prints out your configuration file to stdout. This
+feature is usually used in conjunction with encrypted configuration files.
+
+.. code-block:: bash
+
+    aumbry view ./path/to/my/config.yml
 
 
 Encrypted Configuration
