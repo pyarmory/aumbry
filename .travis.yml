@@ -19,17 +19,21 @@ matrix:
     env: TOXENV=py36
   - python: pypy
     env: TOXENV=pypy
+  - python: 3.6
+    script: skip  # Skipping as tests are executed prior to hitting this stage
+    if: tag =~ ^v
+    deploy:
+      provider: pypi
+      user: pyarmory
+      password:
+        secure: "NugAoY+K9mY3aL4NQjLBkT5dMrz/qEsMarSJMUBbHoW+38dZahfKpO3a8sAX1FO6Uj7DZyiz9px19RqESWrtO9YgtRJbAPDtEw9UtJ9RhhNOj7+jHc1r52+glmFeR6S23lsNNcXwVc0GaPeeESkkNk7NL01qO6s15HFmipj3OOtOz9TNaPLRd/YF10qF3u8jEAkqrVcOcBdEujJTIxYxUbiFysNKIlwcOyBiLfzOZdv4O0elaH95qhjjBVADzK0yuliR0FwdFqDvVGFQQueNBbmGhgg8wNqIJXpIWpp7VTvK3xFkJDTZDFm7pb2SXvVXNoj06n+zBVPEoiJylhRapa5GCRhZ2i8T+3tq4ST5pJp36zWAeqC+8rOHv78xU2uWeNNcSutSUiOThhScW4aivVoxvjTS+ln++MmUl30q1Zx2r3VZp/LTntL3Dj01pRfXsNLErt7MEqSfyD5tANQinfM//ABrRm0RvUPV+U9HI/yrOP6/6WoO5ue66d1YQp/J9m5w3K4dYkB61z32a8gxe/15gCmzce+4+isTuKiMsJqXtJioKFOnHiBgiR8lwYSq6q9nLgc2kCz0ZtJQfbcSENH57YX/j/fUdmN3K7cQ6b9VNSQvLZirTcP4N+mNnUCyy5r3yLFV4Ld0ouJ9sFhEJvcqwQta2OfRb9JA+HgrdTU="
+      distributions: "sdist bdist_wheel"
+      on:
+        tags: true
+
 install:
 - pip install tox codecov twine
 script:
 - tox -e $TOXENV
 after_success:
 - codecov
-deploy:
-  provider: pypi
-  user: pyarmory
-  password:
-    secure: "NugAoY+K9mY3aL4NQjLBkT5dMrz/qEsMarSJMUBbHoW+38dZahfKpO3a8sAX1FO6Uj7DZyiz9px19RqESWrtO9YgtRJbAPDtEw9UtJ9RhhNOj7+jHc1r52+glmFeR6S23lsNNcXwVc0GaPeeESkkNk7NL01qO6s15HFmipj3OOtOz9TNaPLRd/YF10qF3u8jEAkqrVcOcBdEujJTIxYxUbiFysNKIlwcOyBiLfzOZdv4O0elaH95qhjjBVADzK0yuliR0FwdFqDvVGFQQueNBbmGhgg8wNqIJXpIWpp7VTvK3xFkJDTZDFm7pb2SXvVXNoj06n+zBVPEoiJylhRapa5GCRhZ2i8T+3tq4ST5pJp36zWAeqC+8rOHv78xU2uWeNNcSutSUiOThhScW4aivVoxvjTS+ln++MmUl30q1Zx2r3VZp/LTntL3Dj01pRfXsNLErt7MEqSfyD5tANQinfM//ABrRm0RvUPV+U9HI/yrOP6/6WoO5ue66d1YQp/J9m5w3K4dYkB61z32a8gxe/15gCmzce+4+isTuKiMsJqXtJioKFOnHiBgiR8lwYSq6q9nLgc2kCz0ZtJQfbcSENH57YX/j/fUdmN3K7cQ6b9VNSQvLZirTcP4N+mNnUCyy5r3yLFV4Ld0ouJ9sFhEJvcqwQta2OfRb9JA+HgrdTU="
-  distributions: "sdist bdist_wheel"
-  on:
-    tags: true
