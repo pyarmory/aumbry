@@ -23,6 +23,9 @@ the extra dependencies using the following convention:
     # For Parameter Store dependencies
     pip install aumbry['param_store']
 
+    # For Fernet File dependencies
+    pip install aumbry['fernet']
+
     # Installing multiple dependencies
     pip install aumbry['etcd2','yaml']
 
@@ -75,6 +78,19 @@ or via environment variables.
 ===================== ========== ============================
 CONFIG_FILE_PATH                  Required
 ===================== ========== ============================
+
+Encryption
+^^^^^^^^^^
+Encryption and decryption support is provided by using pyca/cryptography's
+Fernet module. Installing the required dependencies can be done with:
+
+.. code-block:: shell
+
+    pip install aumbry['fernet']
+
+The usage is nearly identical to a standard file; however, the source type
+and options change slightly. The source type becomes ``aumbry.FERNET`` and
+you need to provide the ``CONFIG_FILE_FERNET_KEY`` option.
 
 
 Loading from Consul
