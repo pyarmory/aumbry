@@ -51,7 +51,7 @@ trying to do and load the config up.
 
     class SampleConfig(aumbry.JsonConfig):
         __mapping__ = {
-            'something': ['something', str],
+            'something': aumbry.Attr('something', str),
         }
 
 
@@ -98,7 +98,7 @@ set our options for the Consul source.
 
     class SampleConfig(aumbry.JsonConfig):
         __mapping__ = {
-            'something': ['something', str],
+            'something': aumbry.Attr('something', str),
         }
 
 
@@ -152,7 +152,7 @@ set our options for the Etcd2 source.
 
     class SampleConfig(aumbry.JsonConfig):
         __mapping__ = {
-            'something': ['something', str],
+            'something': aumbry.Attr('something', str),
         }
 
 
@@ -207,7 +207,7 @@ and ``save()``.
 
     class SampleConfig(aumbry.GenericConfig):
         __mapping__ = {
-            'something': ['something', str],
+            'something': aumbry.Attr('something', str),
         }
 
 
@@ -267,21 +267,22 @@ Example Code Load and Parse that config
 .. code-block:: python
 
     import aumbry
+    from aumbry import Attr
 
 
     class DatabaseConfig(aumbry.YamlConfig):
         __mapping__ = {
-            'servers': ['servers', list],
-            'username': ['username', str],
-            'password': ['password', str],
-            'database': ['database', str]
+            'servers': Attr('servers', list),
+            'username': Attr('username', str),
+            'password': Attr('password', str),
+            'database': Attr('database', str),
         }
 
 
     class AppConfig(aumbry.YamlConfig):
         __mapping__ = {
-            'base-uri': ['base_uri', str],
-            'database': ['database', DatabaseConfig],
+            'base-uri': Attr('base_uri', str),
+            'database': Attr('database', DatabaseConfig),
         }
 
 
