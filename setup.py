@@ -36,6 +36,7 @@ setup(
         'consul': ['requests'],
         'etcd2': ['requests'],
         'param_store': ['boto3'],
+        'fernet': ['cryptography>=2.1.2'],
         'cli': [
             'pyyaml',
             'requests',

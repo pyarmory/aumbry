@@ -4,6 +4,7 @@ import os
 import tempfile
 from textwrap import dedent
 
+from cryptography.fernet import Fernet
 import requests_mock
 from specter import Spec, DataSpec, expect
 from six.moves import urllib
@@ -107,6 +108,23 @@ class VerifyLoaderHandlingFileBased(DataSpec):
                 options,
                 preprocessor=lambda data: base64.b64decode(data)
             )
+            expect(loaded_cfg.nope).to.equal(cfg.nope)
+
+
+class VerifyLoaderHandlingFernetFile(Spec):
+    def can_save_and_load(self):
+        cfg = SampleYamlConfig()
+        cfg.nope = 'testing'
+
+        with tempfile.NamedTemporaryFile() as temp:
+            options = {
+                'CONFIG_FILE_PATH': temp.name,
+                'CONFIG_FILE_FERNET_KEY': Fernet.generate_key().decode('utf-8')
+            }
+            aumbry.save(aumbry.FERNET, cfg, options)
+
+            # Load up the saved file
+            loaded_cfg = aumbry.load(aumbry.FERNET, SampleYamlConfig, options)
             expect(loaded_cfg.nope).to.equal(cfg.nope)
 
 

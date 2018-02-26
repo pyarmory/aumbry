@@ -12,6 +12,7 @@ from .sources import SourceTypes
 from alchemize.mapping import Attr # NOQA
 
 FILE = SourceTypes.file
+FERNET = SourceTypes.fernet
 CONSUL = SourceTypes.consul
 ETCD2 = SourceTypes.etcd2
 PARAM_STORE = SourceTypes.parameter_store
