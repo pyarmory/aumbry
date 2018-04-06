@@ -257,6 +257,7 @@ PARAMETER_STORE_AWS_REGION                          Required
 PARAMETER_STORE_PREFIX                              Required
 PARAMETER_STORE_AWS_ACCESS_ID                       If empty, the default machine credentials are used
 PARAMETER_STORE_AWS_ACCESS_SECRET                   If empty, the default machine credentials are used
+PARAMETER_STORE_AWS_SESSION_TOKEN                   If empty, the default machine credentials are used
 PARAMETER_STORE_AWS_KMS_KEY_ID      Account Default
 =================================== =============== ============================
 
