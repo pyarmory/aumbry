@@ -128,12 +128,14 @@ class ParameterStoreSource(AbstractSource):
 
         access_id = self.vars.get('PARAMETER_STORE_AWS_ACCESS_ID')
         access_secret = self.vars.get('PARAMETER_STORE_AWS_ACCESS_SECRET')
+        session_token = self.vars.get('PARAMETER_STORE_AWS_SESSION_TOKEN')
 
         ssm = boto3.client(
             'ssm',
             region_name=region,
             aws_access_key_id=access_id,
-            aws_secret_access_key=access_secret
+            aws_secret_access_key=access_secret,
+            aws_session_token=session_token
         )
 
         names = get_key_paths(cfg_class, prefix=prefix)
