@@ -24,7 +24,6 @@ raw_json = dedent("""
 
 
 raw_yaml = dedent("""
-    ---
     nope: testing
 """)
 
@@ -226,7 +225,7 @@ class VerifyLoaderHandlingEtcd2(Spec):
             )
 
             body = urllib.parse.unquote(mock_save.last_request.text)
-            expect(body).to.equal('value=e25vcGU6IHRlc3Rpbmd9Cg==')
+            expect(body).to.equal('value=bm9wZTogdGVzdGluZwo=')
 
     def can_successfully_update_existing_in_etcd(self):
         with requests_mock.Mocker() as mock:
@@ -249,7 +248,7 @@ class VerifyLoaderHandlingEtcd2(Spec):
             )
 
             body = urllib.parse.unquote(mock_save.last_request.text)
-            expect(body).to.equal('value=e25vcGU6IHRlc3Rpbmd9Cg==')
+            expect(body).to.equal('value=bm9wZTogdGVzdGluZwo=')
 
     def handles_save_failure(self):
         with requests_mock.Mocker() as mock:
