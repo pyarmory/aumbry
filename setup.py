@@ -29,7 +29,8 @@ setup(
     install_requires=[
         'six',
         'alchemize>=0.8.0',
-        'pike'
+        'pike',
+        'deepmerge',
     ],
     extras_require={
         'yaml': ['pyyaml'],
