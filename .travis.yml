@@ -3,6 +3,9 @@ language: python
 cache:
   directories:
   - "$HOME/.cache/pip"
+env:
+  global:
+    - BOTO_CONFIG=/dev/null
 matrix:
   include:
   - python: 2.7
@@ -28,7 +31,6 @@ matrix:
       distributions: "sdist bdist_wheel"
       on:
         tags: true
-
 install:
 - pip install tox codecov twine
 script:
