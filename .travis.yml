@@ -28,7 +28,6 @@ matrix:
       distributions: "sdist bdist_wheel"
       on:
         tags: true
-
 install:
 - pip install tox codecov twine
 script:
