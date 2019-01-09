@@ -16,6 +16,9 @@ class GenericHandler(AbstractHandler):
     def deserialize(self, raw_config, config_cls):
         return JsonTransmuter.transmute_from(raw_config, config_cls)
 
+    def parse(self, raw_config):
+        return raw_config
+
 
 class GenericConfig(AumbryConfig):
     """ A type of AumbryConfig for Generic Dict Configurations."""

@@ -19,6 +19,10 @@ class JsonHandler(AbstractHandler):
             config_cls
         )
 
+    def parse(self, raw_config):
+        import json
+        return json.loads(raw_config)
+
 
 class JsonConfig(AumbryConfig):
     """ A type of AumbryConfig for JSON Configurations."""

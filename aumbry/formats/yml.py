@@ -18,10 +18,13 @@ class YamlHandler(js.JsonHandler):
         return yaml.dump(config_dict, default_flow_style=False).encode('utf-8')
 
     def deserialize(self, raw_config, config_cls):
+        config_dict = self.parse(raw_config)
+        return JsonTransmuter.transmute_from(config_dict, config_cls)
+
+    def parse(self, raw_config):
         import yaml
 
-        config_dict = yaml.load(raw_config)
-        return JsonTransmuter.transmute_from(config_dict, config_cls)
+        return yaml.load(raw_config)
 
 
 class YamlConfig(AumbryConfig):

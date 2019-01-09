@@ -28,6 +28,29 @@ raw_yaml = dedent("""
 """)
 
 
+partial_yaml1 = dedent("""
+    nope: testing
+    sample_list:
+      - list1
+""")
+
+
+partial_yaml2 = dedent("""
+    sample_list:
+      - list2
+    sample_dict:
+        which: 2
+        a: b
+""")
+
+
+partial_yaml3 = dedent("""
+    sample_dict:
+        which: 3
+        c: d
+""")
+
+
 class SampleJsonConfig(aumbry.JsonConfig):
     __mapping__ = {
         'nope': ['nope', str]
@@ -37,6 +60,14 @@ class SampleJsonConfig(aumbry.JsonConfig):
 class SampleYamlConfig(aumbry.YamlConfig):
     __mapping__ = {
         'nope': ['nope', str]
+    }
+
+
+class SampleExtendedYamlConfig(aumbry.YamlConfig):
+    __mapping__ = {
+        'nope': ['nope', str],
+        'sample_list': ['sample_list', list],
+        'sample_dict': ['sample_dict', dict],
     }
 
 
@@ -393,3 +424,33 @@ class CustomSourcePluginPaths(Spec):
             aumbry.load,
             ['bam', None, ['/tmp']]
         ).to.raise_a(UnknownSourceError)
+
+
+class VerifyMergingMultipleConfigs(Spec):
+    def can_merge_multiple_yaml(self):
+        temp1, options1 = write_temp_file(partial_yaml1)
+        temp2, options2 = write_temp_file(partial_yaml2)
+        temp3, options3 = write_temp_file(partial_yaml3)
+
+        cfg = aumbry.merge(SampleExtendedYamlConfig, (
+            {
+                'source_name': 'file',
+                'options': options1,
+            },
+            {
+                'source_name': 'file',
+                'options': options2,
+            },
+            {
+                'source_name': 'file',
+                'options': options3,
+            },
+        ))
+
+        os.remove(temp1.name)
+        os.remove(temp2.name)
+        os.remove(temp3.name)
+
+        expect(cfg.nope).to.equal('testing')
+        expect(cfg.sample_list).to.equal(['list2'])
+        expect(cfg.sample_dict).to.equal({'which': 3, 'a': 'b', 'c': 'd'})
