@@ -6,7 +6,7 @@ with open('README.rst') as f:
 
 setup(
     name='aumbry',
-    version='0.8.0',
+    version='0.9.0',
     description=('Multi-type configuration library for Python'),
     long_description=desc,
     url='https://github.com/pyarmory/aumbry',
@@ -28,7 +28,7 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'spec*']),
     install_requires=[
         'six',
-        'alchemize>=0.8.0',
+        'alchemize>=0.9.0',
         'pike',
         'deepmerge',
     ],
