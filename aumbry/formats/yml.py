@@ -24,7 +24,7 @@ class YamlHandler(js.JsonHandler):
     def parse(self, raw_config):
         import yaml
 
-        return yaml.load(raw_config)
+        return yaml.full_load(raw_config)
 
 
 class YamlConfig(AumbryConfig):
