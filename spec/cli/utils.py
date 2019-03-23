@@ -15,7 +15,7 @@ def build_stub(path, key=None):
 
 
 class CLIUtilities(Spec):
-    def can_setup_an_encryped_config(self):
+    def can_setup_an_encrypted_config(self):
         arguments = build_stub('./spec/cli/encrypted_sample.yml', test_key)
 
         @setup_up_config
