@@ -33,13 +33,13 @@ setup(
         'deepmerge',
     ],
     extras_require={
-        'yaml': ['pyyaml'],
+        'yaml': ['pyyaml>=5.1'],
         'consul': ['requests'],
         'etcd2': ['requests'],
         'param_store': ['boto3'],
         'fernet': ['cryptography>=2.1.2'],
         'cli': [
-            'pyyaml',
+            'pyyaml>=5.1',
             'requests',
             'boto3',
             'cryptography>=2.1.2'

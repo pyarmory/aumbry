@@ -15,12 +15,12 @@ def build_stub(path, key=None):
 
 
 class CLIUtilities(Spec):
-    def can_setup_an_encryped_config(self):
+    def can_setup_an_encrypted_config(self):
         arguments = build_stub('./spec/cli/encrypted_sample.yml', test_key)
 
         @setup_up_config
         def test(args):
-            return yaml.load(open(args.path))
+            return yaml.full_load(open(args.path))
 
         data = test(arguments)
         expect(data['thing']).to.equal('other')
@@ -31,7 +31,7 @@ class CLIUtilities(Spec):
 
         @setup_up_config
         def test(args):
-            return yaml.load(open(args.path))
+            return yaml.full_load(open(args.path))
 
         data = test(arguments)
         assert data is None
@@ -48,7 +48,7 @@ class CLIUtilities(Spec):
                 ct = fp.read()
 
         f = Fernet(test_key.encode('utf-8'))
-        data = yaml.load(f.decrypt(ct))
+        data = yaml.full_load(f.decrypt(ct))
 
         expect(data['thing']).to.equal('bam')
         expect(data['other']).to.equal('thing')
