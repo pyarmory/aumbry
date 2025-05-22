@@ -1,7 +1,6 @@
 import abc
 import os
 import importlib
-import six
 
 from alchemize.mapping import JsonMappedModel
 from aumbry.errors import DependencyError
@@ -24,15 +23,14 @@ class PluginBase(object):
                 raise DependencyError(self.extras_name)
 
         for req in self.imports:
-            if isinstance(req, six.text_type) or isinstance(req, str):
+            if isinstance(req, str):
                 _import(req)
             else:
                 name, package = req
                 _import(name, package)
 
 
-@six.add_metaclass(abc.ABCMeta)
-class AbstractSource(PluginBase):
+class AbstractSource(PluginBase, metaclass=abc.ABCMeta):
     def __init__(self, options=None):
         self.options = options or {}
 
@@ -62,8 +60,7 @@ class AbstractSource(PluginBase):
         return {key: os.environ[key] for key in keys_to_fetch}
 
 
-@six.add_metaclass(abc.ABCMeta)
-class AbstractHandler(PluginBase):
+class AbstractHandler(PluginBase, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def deserialize(self, raw_config, config_cls):
         """ Method to handle deserialization to a Config object. """

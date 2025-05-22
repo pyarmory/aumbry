@@ -3,11 +3,12 @@ import json
 import os
 import tempfile
 from textwrap import dedent
+import urllib.parse
 
 from cryptography.fernet import Fernet
 import requests_mock
 from specter import Spec, DataSpec, expect
-from six.moves import urllib
+
 from moto import mock_ssm
 from pike.discovery import py
 

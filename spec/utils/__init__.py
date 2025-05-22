@@ -1,4 +1,4 @@
-import six
+import io
 import sys
 
 
@@ -6,8 +6,8 @@ class OutputCapture(list):
     def __enter__(self):
         self._stdout = sys.stdout
         self._stderr = sys.stderr
-        sys.stdout = self._stdoutio = six.StringIO()
-        sys.stderr = self._stderrio = six.StringIO()
+        sys.stdout = self._stdoutio = io.StringIO()
+        sys.stderr = self._stderrio = io.StringIO()
 
         return self
 
