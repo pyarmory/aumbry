@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aumbry"
-version = "0.10.0"
+version = "0.11.0"
 description = "Multi-type configuration library for Python"
 authors = ["John Vrbanac <john.vrbanac@linux.com>"]
 license = "Apache v2"
@@ -21,7 +21,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4.0"
-alchemize = ">=0.10.0"
+alchemize = ">=0.11.0"
 pike = ">=0.2.0"
 deepmerge = "*"
 pyyaml = { version = ">=5.1", optional = true }
