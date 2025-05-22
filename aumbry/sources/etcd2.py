@@ -1,6 +1,6 @@
 import base64
 import time
-from six.moves.urllib.parse import urljoin
+from urllib.parse import urljoin
 
 from aumbry.contract import AbstractSource
 from aumbry.errors import LoadError, SaveError

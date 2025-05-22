@@ -41,7 +41,7 @@ class CLIBehaviors(Spec):
 
         assert SampleConfig.__name__ == args[1].__name__
         assert 'CONFIG_FILE_PATH' in args[2]
-        assert type(kwargs['handler']) == YamlHandler
+        assert type(kwargs['handler']) is YamlHandler
 
     def file_type_defaults_to_json(self):
         with OutputCapture():
@@ -61,7 +61,7 @@ class CLIBehaviors(Spec):
 
         assert SampleConfig.__name__ == args[1].__name__
         assert 'CONFIG_FILE_PATH' in args[2]
-        assert type(kwargs['handler']) == JsonHandler
+        assert type(kwargs['handler']) is JsonHandler
 
     def output_handler_defaults_to_none(self):
         with OutputCapture():
@@ -81,7 +81,7 @@ class CLIBehaviors(Spec):
 
         assert SampleConfig.__name__ == args[1].__name__
         assert 'CONFIG_FILE_PATH' in args[2]
-        assert type(kwargs['handler']) == JsonHandler
+        assert type(kwargs['handler']) is JsonHandler
 
         args, kwargs = self.save_mock.call_args
         assert kwargs['handler'] is None

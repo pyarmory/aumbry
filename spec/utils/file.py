@@ -1,6 +1,6 @@
+import builtins
 import os
 import mock
-import six
 import tempfile
 
 from specter import Spec, expect
@@ -34,7 +34,7 @@ class VerifyFileUtils(Spec):
         open_mock.side_effect = magic_open
         raised_error = False
 
-        patch_name = '{}.open'.format(six.moves.builtins.__name__)
+        patch_name = '{}.open'.format(builtins.__name__)
         with mock.patch(patch_name, open_mock):
             # Doing this manually as test suites use open()
             try:
