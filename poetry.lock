@@ -15,6 +15,31 @@ files = [
 six = "*"
 
 [[package]]
+name = "bump2version"
+version = "1.0.1"
+description = "Version-bump your software with a single command!"
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "bump2version-1.0.1-py2.py3-none-any.whl", hash = "sha256:37f927ea17cde7ae2d7baf832f8e80ce3777624554a653006c9144f8017fe410"},
+    {file = "bump2version-1.0.1.tar.gz", hash = "sha256:762cb2bfad61f4ec8e2bdf452c7c267416f8c70dd9ecb1653fd0bbb01fa936e6"},
+]
+
+[[package]]
+name = "bumpversion"
+version = "0.6.0"
+description = "Version-bump your software with a single command!"
+optional = false
+python-versions = "*"
+files = [
+    {file = "bumpversion-0.6.0-py2.py3-none-any.whl", hash = "sha256:4eb3267a38194d09f048a2179980bb4803701969bff2c85fa8f6d1ce050be15e"},
+    {file = "bumpversion-0.6.0.tar.gz", hash = "sha256:4ba55e4080d373f80177b4dabef146c07ce73c7d1377aabf9d3c3ae1f94584a6"},
+]
+
+[package.dependencies]
+bump2version = "*"
+
+[[package]]
 name = "certifi"
 version = "2025.4.26"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -397,17 +422,14 @@ files = [
 
 [[package]]
 name = "pike"
-version = "0.1.1"
+version = "0.2.0"
 description = "Lightweight plugin management system for Python"
 optional = false
-python-versions = "*"
+python-versions = "<4.0,>=3.7"
 files = [
-    {file = "pike-0.1.1-py2.py3-none-any.whl", hash = "sha256:1430c96bd124c5dc07cc6ad108b72ab494baebd909d09179879a1c6e84540a99"},
-    {file = "pike-0.1.1.tar.gz", hash = "sha256:d5b62d44d14bd0f13683106f8bc26e2a008ab2923ef8c404b4cb54fafec1bfba"},
+    {file = "pike-0.2.0-py3-none-any.whl", hash = "sha256:b0b125b743ee1ee5940283debaed7368a6dbba318dd21362bef14455791457ac"},
+    {file = "pike-0.2.0.tar.gz", hash = "sha256:538243d2c55def62685d0d73b2c8796a6f974dfffbd55f69b671ad0225658d92"},
 ]
-
-[package.dependencies]
-six = "*"
 
 [[package]]
 name = "pretend"
@@ -574,20 +596,22 @@ files = [
 
 [[package]]
 name = "specter"
-version = "0.6.1"
+version = "0.7.0"
 description = "Specter is a spec-based testing library to help facilitate BDD-testing in Python."
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "Specter-0.6.1-py2.py3-none-any.whl", hash = "sha256:1a4c6196efbd031aa132883b0e3fde1b4e74d8769d9306673284332b94957fab"},
-    {file = "Specter-0.6.1.tar.gz", hash = "sha256:85f448c962b856c378adc2c4bd10493059df64f2f2820b573a346aa2d2aa83dd"},
+    {file = "Specter-0.7.0-py3-none-any.whl", hash = "sha256:4053322976e594be2e519859aabe62ce931ffddd7e70550772d1dde7c30cbe3c"},
+    {file = "Specter-0.7.0.tar.gz", hash = "sha256:3481b7dec5206744d372d9d9d152847c73cbc74728277edc711c1ae184ae3864"},
 ]
 
 [package.dependencies]
 coverage = "*"
-pike = ">=0.1.0"
+pike = ">=0.2.0"
 pyevents = "*"
-six = "*"
+
+[package.extras]
+test = ["flake8", "pytest"]
 
 [[package]]
 name = "typing-extensions"
@@ -642,5 +666,5 @@ yaml = ["pyyaml"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = ">=3.7"
-content-hash = "420609a41f82df2339fb8dcc2d936dcb25edd30c74414fd54eb8d2ee417472bf"
+python-versions = ">=3.7,<4.0"
+content-hash = "4ea1138e4b1e51381f5d46d6e437bcd6c35b6803a0ef4c65b7e8c65dbad98f92"
